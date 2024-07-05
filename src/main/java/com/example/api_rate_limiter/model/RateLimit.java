@@ -3,7 +3,7 @@ package com.example.api_rate_limiter.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "rateLimits")
+@Document(collection = "foodzy")
 public class RateLimit {
 
     @Id
