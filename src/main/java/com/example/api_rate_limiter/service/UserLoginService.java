@@ -12,12 +12,7 @@ import com.example.api_rate_limiter.repository.UserLoginRepository;
 
 import javax.crypto.SecretKey;
 import java.time.Instant;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
+import java.util.*;
 import java.nio.charset.StandardCharsets;
 
 @Service
@@ -26,7 +21,7 @@ public class UserLoginService {
     @Autowired
     private UserLoginRepository userRepository;
 
-    private static final long EXPIRATION_TIME = 60000; // 1 minute in milliseconds
+    private static final long EXPIRATION_TIME = 30000; // 30 seconds in milliseconds
 
     private static final String SECRET_KEY = "securesecuresecuresecuresecuresecuresecuresecure";
 
@@ -68,16 +63,21 @@ public class UserLoginService {
         return response;
     }
     
-    public boolean validateJwtToken(String token) {
+    public Map<String, Object> validateJwtToken(String token) {
+
+        Map<String, Object> response = new HashMap<>();
         try {
             SecretKey key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
-            Jws<Claims> claimsJws = Jwts.parserBuilder()
+            Jwts.parserBuilder()
                     .setSigningKey(key)
                     .build()
                     .parseClaimsJws(token);
-            return true;
+
+            List<String> hotels = Arrays.asList("Hotel1", "Hotel2", "Hotel3");
+            response.put("hotels", hotels);
         } catch (Exception e) {
-            return false;
+        	response.put("error", "Token mismatch");
         }
+        return response;
     }
 }

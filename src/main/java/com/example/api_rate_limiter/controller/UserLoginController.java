@@ -20,14 +20,6 @@ public class UserLoginController {
     
     @GetMapping("/getHotel")
     public Map<String, Object> getHotel(@RequestParam String token) {
-        boolean isValidToken = userService.validateJwtToken(token);
-        Map<String, Object> response = new HashMap<>();
-        if (isValidToken) {
-            List<String> hotels = Arrays.asList("Hotel1", "Hotel2", "Hotel3");
-            response.put("hotels", hotels);
-        } else {
-            response.put("error", "Token mismatch");
-        }
-        return response;
+    	return userService.validateJwtToken(token); 
     }
 }
