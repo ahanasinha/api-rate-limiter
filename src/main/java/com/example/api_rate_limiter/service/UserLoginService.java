@@ -21,7 +21,7 @@ public class UserLoginService {
     @Autowired
     private UserLoginRepository userRepository;
 
-    private static final long EXPIRATION_TIME = 30000; // 30 seconds in milliseconds
+    private static final long EXPIRATION_TIME = 900000; // 1.5 minute in milliseconds
 
     private static final String SECRET_KEY = "securesecuresecuresecuresecuresecuresecuresecure";
 
