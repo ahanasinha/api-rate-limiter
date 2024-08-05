@@ -68,13 +68,16 @@ public class UserLoginService {
         Map<String, Object> response = new HashMap<>();
         try {
             SecretKey key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
-            Jwts.parserBuilder()
+            String subject = Jwts.parserBuilder()
                     .setSigningKey(key)
                     .build()
-                    .parseClaimsJws(token);
+                    .parseClaimsJws(token)
+                    .getBody()
+                    .getSubject();
 
             List<String> hotels = Arrays.asList("Hotel1", "Hotel2", "Hotel3");
             response.put("hotels", hotels);
+            response.put("user", subject);
         } catch (Exception e) {
         	response.put("error", "Token mismatch");
         }
